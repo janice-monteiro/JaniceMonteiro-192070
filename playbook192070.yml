@@ -1,0 +1,40 @@
+---
+- name: janicemonteiro-192070
+  hosts: client_1
+  remote_user: root
+
+  tasks:
+   - name: install nginx
+     apt:
+      name: nginx
+      state: latest
+   - name: start nginx
+     service:
+      name: nginx
+      state: started
+
+   - name: install PostgreSQL
+     apt:
+      name: postgresql
+      state: latest
+   - name: start PostgreSQL
+     service:
+      name: postgresql
+      state: started
+
+   - name: Create a user
+     user:
+      name: janice
+      password: '$6$3F6oWAac6H$om6HTF4mCmtxsHM9nGDNrdG/CBeF787ROnUHmu3W9gUQlwKK687LufmMGuKliFf.cocnTmj8m5QpUpknHbvJT0'
+      state: present
+      shell: /bin/bash
+      system: no
+      createhome: yes
+      home: /home/janice
+
+   - name: Create a folder in home directory
+     file: path=/home/192070 state=directory mode=0755
+
+   - name: Uninstall nano
+     apt: name=nano state=absent
+
